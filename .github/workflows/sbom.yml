@@ -26,15 +26,14 @@ jobs:
 
       - name: Generate SBOM
         run: |
-          npx cyclonedx-bom -o sbom.json || echo "SBOM generation failed"
+          npx cyclonedx-bom -o sbom.json
           mkdir -p sbom_output
-          mv sbom.json sbom_output/ || echo "No SBOM to move"
+          mv sbom.json sbom_output/
 
-      - name: List files in sbom_output
-        run: ls -l sbom_output || echo "sbom_output not found"
+      - name: Verify SBOM output
+        run: ls -la sbom_output/sbom.json
 
       - name: Upload SBOM artifact
-        if: always()
         uses: actions/upload-artifact@v3
         with:
           name: sbom
