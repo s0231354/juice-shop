@@ -21,16 +21,17 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Generate SBOM (CycloneDX)
+      - name: Install CycloneDX locally
+        run: npm install @cyclonedx/bom --save-dev
+
+      - name: Generate SBOM
         run: |
-          npx @cyclonedx/bom -o sbom.json
+          npx cyclonedx-bom -o sbom.json
           mkdir -p sbom_output
           mv sbom.json sbom_output/
 
-      - name: Commit SBOM to repo (optional)
-        run: |
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
-          git add sbom_output/sbom.json
-          git commit -m "Add SBOM output"
-          git push || echo "Nothing to push"
+      - name: Upload SBOM artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: sbom
+          path: sbom_output/sbom.json
