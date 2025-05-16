@@ -18,15 +18,12 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Install CycloneDX CLI
-        run: npm install -g @cyclonedx/bom
-
       - name: Install dependencies
         run: npm install
 
-      - name: Generate SBOM (CycloneDX BOM)
+      - name: Generate SBOM (CycloneDX)
         run: |
-          cyclonedx-bom -o sbom.json
+          npx @cyclonedx/bom -o sbom.json
           mkdir -p sbom_output
           mv sbom.json sbom_output/
 
