@@ -3,7 +3,6 @@ name: Generate SBOM
 on:
   push:
     branches: [master]
-
   workflow_dispatch:
 
 jobs:
@@ -28,7 +27,7 @@ jobs:
         run: cyclonedx-bom -o sbom.json
 
       - name: Upload SBOM
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3.1.3
         with:
           name: sbom
           path: sbom.json
