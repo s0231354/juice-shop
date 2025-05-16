@@ -25,10 +25,10 @@ jobs:
         run: npm install
 
       - name: Generate SBOM
-  run: |
-    cyclonedx-npm --output-file sbom.json
-    mkdir -p sbom_output
-    mv sbom.json sbom_output/
+        run: |
+          cyclonedx-npm --output-file sbom.json
+          mkdir -p sbom_output
+          mv sbom.json sbom_output/
 
       - name: Commit SBOM to repo (optional)
         run: |
