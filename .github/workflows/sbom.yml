@@ -1,37 +1,18 @@
-name: Generate SBOM
+- name: Generate SBOM
+  run: cyclonedx-bom -o sbom.json
 
-on:
-  push:
-    branches: [master]
-  workflow_dispatch:
+- name: Verify SBOM File
+  run: ls -l sbom.json
 
-jobs:
-  sbom:
-    runs-on: ubuntu-latest
+- name: Debug Artifact File
+  run: |
+    echo "Listing current directory:"
+    ls -al
+    echo "Checking sbom.json:"
+    cat sbom.json
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "20"
-
-      - name: Install CycloneDX CLI
-        run: npm install -g @cyclonedx/bom
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Generate SBOM
-        run: cyclonedx-bom -o sbom.json
-
-      - name: Verify SBOM File
-        run: ls -l sbom.json # Debugging step
-
-      - name: Upload SBOM
-        uses: actions/upload-artifact@v3
-        with:
-          name: sbom
-          path: sbom.json
+- name: Upload SBOM
+  uses: actions/upload-artifact@v3
+  with:
+    name: sbom
+    path: sbom.json
