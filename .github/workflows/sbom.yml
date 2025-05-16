@@ -8,16 +8,17 @@ on:
 jobs:
   sbom:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "20"
 
-      - name: Install CycloneDX module
+      - name: Install CycloneDX CLI
         run: npm install -g @cyclonedx/bom
 
       - name: Install dependencies
@@ -27,7 +28,7 @@ jobs:
         run: cyclonedx-bom -o sbom.json
 
       - name: Upload SBOM
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v2
         with:
           name: sbom
           path: sbom.json
